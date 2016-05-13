@@ -1,0 +1,27 @@
+h1 {
+	color: #4C5F5C;
+}
+.build_matrix_button, .shape_matrix_button  {
+	display: inline-block;
+	background-color: #182929;
+	color: white;
+	height: 50px;
+	width: 170px;
+	border-radius: 10px;
+	text-align: center;
+	line-height: 49px;
+	margin: 40px 0px 0px 0px;
+	cursor: pointer;
+}
+.build_matrix_button:hover, .shape_matrix_button:hover{
+    background-color: #C2CCCE;
+    color: black;
+}
+.shape_matrix_button {
+	visibility: hidden;
+}
+.pay_matrix {
+	margin: 50px 0px 0px 50px;
+	border-collapse: collapse;
+
+}

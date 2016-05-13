@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Game theory</title>
+
+    <!-- Bootstrap -->
+    <link href="libs/bootsrtap-grid/bootstrap-grid-3.3.1.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="container"></div>
+     <div class="row">
+
+         <div class="col-md-2"></div>
+         <div class="col-md-8">
+         <h1>Решение игр в смешанных стратегиях</h1>
+         <form action="handler.php" method="POST">
+              <h2>Выберите количество строк и столбцов в платежной матрице</h2>
+
+            <div class="row">
+               <div class="col-md-4">
+                 <label> Строки </label>
+                   <select class="rows" name="n">
+                       <option selected value="2">2 строки</option>
+                       <option value="3">3 строки</option>
+                       <option value="4">4 строки</option>
+                       <option value="5">5 строк</option>
+                   </select>
+               </div>
+                <div class="col-md-4">
+                  <label> Столбцы </label>
+                   <select class="columns" name="m">
+                       <option selected value="2">2 столбца</option>
+                       <option value="3">3 столбца</option>
+                       <option value="4">4 столбца</option>
+                       <option value="5">5 столбцов</option>
+                   </select>
+               </div>
+            </div>
+
+            <a class="build_matrix_button">Построить</a>
+
+            <div class="row">
+               <div calss="col-md-12">
+                  <table class="pay_matrix">
+                      <tr>
+                        
+                      </tr>
+                  </table>
+               </div>
+            </div>
+
+             <a class="shape_matrix_button">Сформировать массив</a>
+
+          </form>
+
+          <div class="result">
+            
+          </div>
+         </div>
+
+         <div class="col-md-2"></div>
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="libs/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
