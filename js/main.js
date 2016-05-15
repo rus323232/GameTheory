@@ -99,29 +99,24 @@
     }
 
     function sendDataOnServer () {
-
-    	var JsonData = {
-    		_payMatrix: _payMatrix,
-            tableRows: tableRows,
-            tableColumns: tableColumns,
-            maxminB: _maxminB,
-            _minmaxA: _minmaxA
-    	};
+   
 
     	$.ajax({
     		url: 'handler.php',
     		type: 'POST',
     		dataType: 'JSON',
     		data: {
-    			JsonData: JsonData
+    			pay_matrix: _payMatrix,
+          minmaxA: _minmaxA,
+          maxminB: _maxminB,
+          n: tableRows,
+          m: tableColumns
+
     		},
+        success: function (data) {
+          console.log(data);
+        }
     	})
-    	.done(function() {
-    		console.log("success");
-    	})
-    	.fail(function() {
-    		console.log("error");
-    	});
     	
     	
     }
