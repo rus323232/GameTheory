@@ -1,6 +1,6 @@
 <?php 
 
-    include_once 'FindingUnknowVariables.inc';
+    include_once 'classes/FindingUnknowVariables.php';
 
     if(isset($_POST['pay_matrix']) && isset($_POST['n']) && isset($_POST['m']) && isset($_POST['minmaxA']) && isset($_POST['maxminB'])) {
 
