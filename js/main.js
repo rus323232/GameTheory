@@ -1,7 +1,7 @@
 
 (function () {
 
-	var tableRows, tableColumns, _payMatrix, _minmaxA, _maxminB;
+	var tableRows, tableColumns, _payMatrix, _transpayMatrix, _minmaxA, _maxminB;
     
     $('.build_matrix_button').click(function(event) {
 
@@ -43,8 +43,9 @@
 
              if (findSaddlePoint(pay_matrix) === null){
              	sendDataOnServer();
+              console.log(_transpayMatrix);
              };
-
+        
          
     });
 
@@ -54,7 +55,7 @@
 
     	//формируем массив из строк находим минимумы
     	for (var i = 0; i < pay_matrix.length; i++) {
-    		rows[i] = pay_matrix[i];
+    		    rows[i] = pay_matrix[i];
             minRow[i] = Math.min.apply(null, rows[i]);
     	};
 
@@ -78,16 +79,11 @@
         	$('.result').append('<p>Так, как a = b, решением будет пара стратегий со значением ( '+saddlePoint+' ), а цена игры v будет соответственно равна = '+minmaxA+'</p>');
         }
         else {
-        	  _payMatrix = pay_matrix;  //присваиваем получившиеся значения глобальным переменным для передачи на сервер 
+        	  _payMatrix = pay_matrix;
+            _transpayMatrix = columns;  //присваиваем получившиеся значения глобальным переменным для передачи на сервер 
               _minmaxA = minmaxA;
               _maxminB = maxminB;
         }
-
-        console.log(columns);
-        console.log(minRow);
-        console.log(maxColumn);
-        console.log(minmaxA);
-        console.log(maxminB);
 
 
        _payMatrix = pay_matrix;
@@ -107,6 +103,7 @@
     		dataType: 'JSON',
     		data: {
     			pay_matrix: _payMatrix,
+          trans_matrix: _transpayMatrix,
           minmaxA: _minmaxA,
           maxminB: _maxminB,
           n: tableRows,
