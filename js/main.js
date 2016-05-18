@@ -156,10 +156,6 @@
            outContainer.append(gamerAanswer);
            outContainer.append('<p>Для игрока B: </p>');
            outContainer.append(gamerBanswer);
-
-
-
-
     }
 
     function buildAnswer (data) {

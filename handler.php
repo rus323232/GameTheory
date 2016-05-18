@@ -1,6 +1,7 @@
 <?php 
 
     include_once 'classes/FindingUnknowVariables.php';
+    include_once 'classes/SimplifyMatrix.php'
 
     if(isset($_POST['pay_matrix']) && isset($_POST['n']) && isset($_POST['m']) && isset($_POST['minmaxA']) && isset($_POST['maxminB'])) {
 
@@ -18,7 +19,4 @@
     exit;
 }
    
-
-
-
  ?>
