@@ -35,7 +35,7 @@
 
     function calculate () {
       var i = tableRows,
-            j = tableColumns;
+          j = tableColumns;
         // Создать многомерный массив
         var pay_matrix = new Array(i); // В таблице i строк
 
@@ -55,6 +55,7 @@
         if (findSaddlePoint(pay_matrix) === null) {
            var a = sendDataOnServer();
            console.log(a);
+           resultOut();
         };
 
     }
@@ -134,5 +135,51 @@
 
        return value;
     }
+
+    function resultOut () {
+        var data = sendDataOnServer(),
+            outContainer = $('.result_shuffle_strategy');
+        var text1 = "Находим решение игры в смешанных стратегиях. Объясняется это тем, что игроки не могут объявить противнику свои чистые стратегии: им следует скрывать свои действия.";
+            text1+= "Игру можно решить, если позволить игрокам выбирать свои стратегии случайным образом (смешивать чистые стратегии).";
+            text1+="Так как игроки выбирают свои чистые стратегии случайным образом, то выигрыш игрока I будет случайной величиной. В этом случае игрок I должен выбрать свои смешанные стратегии так, чтобы получить максимальный средний выигрыш.";
+            text1+="Аналогично, игрок II должен выбрать свои смешанные стратегии так, чтобы минимизировать математическое ожидание игрока I.  ";
+        var text2 ="<p>Решив систему уравнений получим ответ</p>"
+        var gamerAanswer = buildAnswer(data.A);
+        var gamerBanswer = buildAnswer(data.B);
+
+           outContainer.empty();
+
+           outContainer.append('Что свидетельствует об отсутствии седловой точки, так как a ≠ b, тогда цена игры находится в пределах '+_minmaxA+'≤ y ≤ '+_maxminB+'');   
+           outContainer.append(text1); 
+           outContainer.append(text2);
+           outContainer.append('<p>Для игрока A: </p>');
+           outContainer.append(gamerAanswer);
+           outContainer.append('<p>Для игрока B: </p>');
+           outContainer.append(gamerBanswer);
+
+
+
+
+    }
+
+    function buildAnswer (data) {
+
+        var answerText ='', ansObj = data;
+
+          for (var i = 0; i < ansObj[0].length; i++) {
+
+                if (i == (ansObj[0].length)-1) {
+                    answerText += "Y"+(i+1)+" = "+ansObj[0][i]+"<br />";
+                    break;
+                };
+
+             answerText += "P"+(i+1)+" = "+ansObj[0][i]+"<br />";
+                
+          };
+
+    return answerText;
+    };
+
+
 
 })();
