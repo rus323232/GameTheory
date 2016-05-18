@@ -11,10 +11,10 @@
     $n = $_POST['n'];
     $m = $_POST['m'];
     
-    $Result = new FindVariables($paymatrix, $trans_matrix);
-    $Result->findVar();
+    $GetResult= new FindVariables($paymatrix, $trans_matrix);
+    $answer = $GetResult->findVar();
 
-    echo json_encode($paymatrix[1][1]);
+    echo json_encode($answer);
     exit;
 }
    

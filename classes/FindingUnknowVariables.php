@@ -1,34 +1,12 @@
 <?php 
 
-  //решение системы уравнений методом Гаусса-Жордана
-  /**************** 
-  4x + 7y + 2z = 34 
-  3x + 1y + 5z = 21 
-  8x + 2y + 6z = 52 
-  ****************/ 
-  //$matrix[0] = array(3, 8, -1);  
-  //$matrix[1] = array(7, 4, -1);  
-  //$matrix[2] = array(1, 1, 0); 
-  //$b[0] = 0; 
-  //$b[1] = 0; 
-  //$b[2] = 1; 
-  //// Решаем уравнение 
-  //list(list($x, $y, $z)) = gaussj($matrix, $b);
-  //echo "Решение<br />"; 
-  //echo "X = $x<br />"; 
-  //echo "Y = $y<br />"; 
-  //echo "Z = $z<br />"; 
-  // Проверка 
-  //echo 4 * $x + 7 * $y + 2 * $z; 
-  //echo "<br>"; 
-  //echo 3 * $x + 1 * $y + 5 * $z; 
-  //echo "<br>"; 
-  //echo 8 * $x + 2 * $y + 6 * $z;
-  // Решение системы линейных уравнений
-  // методом Метод Гаусса-Жордана
 
-  /**
-  * 
+  /** Класс который считает вероятности выйгрыша для двух игроков
+  *   Входящие переменные: 2 двумерных массива коэффициентов для игроков A и B соответственно(платежная матрица, транспонированная платежная матрица)
+  *   Конструктор: Дополняет матрицы необходимыми коэффициентами, последующего решения системы уравнений
+  *   solve_equation($a, $b): скрытый метод, решающий систему уравнений методом Гаусса $a- матрица с коэф. переменных, $b- та хрень что после знака равенства 
+  *   findVar: открый метод, для выполнения всех вычилений
+  *   На выходе: многомерный массив элемент [A][1] - массив значений переменных [A][2] - обратная матрица(аналогично с [B])
   */
   class FindVariables
   {
@@ -47,7 +25,8 @@
       $gamerB_sum;
 
 
-      for ($i = 0; $i < $matrix1_length ; $i++) { 
+      for ($i = 0; $i < $matrix1_length ; $i++) 
+      { 
        array_push($this->gamerA[$i], "-1");
        $gamerA_sum[$i] = 1;
        $this->Va[$i] = 0;
@@ -59,12 +38,13 @@
            }
       }
 
-      for ($i = 0; $i < $matrix1_length ; $i++) { 
+      for ($i = 0; $i < $matrix2_length ; $i++) 
+      { 
         array_push($this->gamerB[$i], "-1");
         $gamerB_sum[$i] = 1;
         $this->Vb[$i] = 0;
 
-           if (($i+1) == $matrix1_length) {
+           if (($i+1) == $matrix2_length) {
               $gamerB_sum[$i+1] = 0;
               array_push($this->gamerB, $gamerB_sum);
               $this->Vb[$i+1] = 1;
@@ -72,7 +52,7 @@
       }
     }
 
-  function solve_equation($a, $b)
+ private function solve_equation($a, $b)
   {
     $n = count($a);
     for($j = 0; $j < $n; $j++)
@@ -152,29 +132,19 @@
     }
     // $b - решение уравнения
     // $a - обратная матрица
-    echo "$a";
     return array($b, $a);
   }
 
     function findVar () {
-      echo "Решим уравнение";
-      echo "</br>";
-      echo "</br>";
-      echo json_encode($this->gamerA);
-      echo "</br>";
-      echo json_encode($this->Va);
-      echo "</br>";
-      echo json_encode($this->gamerB);
-      echo "</br>";
-      echo json_encode($this->Vb);
-      echo "</br>";
 
-      list(list($x, $y, $z)) = $this->solve_equation($this->gamerA, $this->Va);
-      echo "Решение<br />"; 
-      echo "X = $x <br />"; 
-      echo "Y = $y <br />"; 
-      echo "Z = $z <br />"; 
+      $gamerA_answer = $this->solve_equation($this->gamerA, $this->Va);
+      $gamerB_answer = $this->solve_equation($this->gamerB, $this->Va);
 
+      $answers[A] = $gamerA_answer;
+      $answers[B] = $gamerB_answer;
+
+      return $answers;
+       //list(list($x, $y, $z)) = gaussj($matrix, $b);
     }
 
   }
