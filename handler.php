@@ -1,7 +1,10 @@
 <?php 
 
     include_once 'classes/FindingUnknowVariables.php';
+<<<<<<< HEAD
     include_once 'classes/SimplifyMatrix.php'
+=======
+>>>>>>> 5d41ea9dc914473dd92eccafcf00a9afa3520223
 
     if(isset($_POST['pay_matrix']) && isset($_POST['n']) && isset($_POST['m']) && isset($_POST['minmaxA']) && isset($_POST['maxminB'])) {
 

@@ -5,6 +5,7 @@
     $('.build_matrix_button').click(function(event) {
         buildTable();
     });
+<<<<<<< HEAD
 
     $('.shape_matrix_button').click(function(event) {
         calculate();
@@ -31,11 +32,43 @@
        };
        $('.shape_matrix_button').css('visibility', 'visible');
 
+=======
+
+    $('.shape_matrix_button').click(function(event) {
+        calculate();
+    });
+
+
+    
+
+    function buildTable () {
+       var i, j;
+
+       $('.pay_matrix').empty();
+
+       tableRows = parseInt($('.rows').val(), 10);
+       tableColumns = parseInt($('.columns').val(), 10);
+
+       for (i = 0; i < tableRows; i++) {
+         $('.pay_matrix').append('<tr id="' + i + '">');
+
+         for (j = 0; j < tableColumns; j++) {
+             $('#' + i + '').append('<td><input value="' + (i + 1) + (j + 1) + '" id="elem' + i + '-' + j + '"type="number"></td>');
+         };
+         $('.pay_matrix').append('</tr>');
+       };
+       $('.shape_matrix_button').css('visibility', 'visible');
+
+>>>>>>> 5d41ea9dc914473dd92eccafcf00a9afa3520223
     }
 
     function calculate () {
       var i = tableRows,
+<<<<<<< HEAD
           j = tableColumns;
+=======
+            j = tableColumns;
+>>>>>>> 5d41ea9dc914473dd92eccafcf00a9afa3520223
         // Создать многомерный массив
         var pay_matrix = new Array(i); // В таблице i строк
 
@@ -55,7 +88,10 @@
         if (findSaddlePoint(pay_matrix) === null) {
            var a = sendDataOnServer();
            console.log(a);
+<<<<<<< HEAD
            resultOut();
+=======
+>>>>>>> 5d41ea9dc914473dd92eccafcf00a9afa3520223
         };
 
     }
@@ -136,6 +172,7 @@
        return value;
     }
 
+<<<<<<< HEAD
     function resultOut () {
         var data = sendDataOnServer(),
             outContainer = $('.result_shuffle_strategy');
@@ -178,4 +215,6 @@
 
 
 
+=======
+>>>>>>> 5d41ea9dc914473dd92eccafcf00a9afa3520223
 })();
