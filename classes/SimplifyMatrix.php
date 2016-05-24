@@ -43,22 +43,22 @@
      		}
            $matrix = array_values($matrix);
      	   print_r($matrix);
-     	   echo "<br />
-     	   <br />
-     	   <br />
-     	   <br />
-     	   <br />
-     	   <br />";
 
-     	   $this->check_cols($matrix);
+           $this->pay_matrix = $matrix;
+     
+
      	}
 
-     function check_cols($arr)
+     function check_cols()
      { 
-     	$matrix = $arr;
+     	$matrix = $this->pay_matrix;
      	$trans_matrix = array();
+        $cache = array();
 
 
+        //транспонировать матрицу для проверки по столбцам
+
+           echo "<br>";
         for ($i = 0; $i < count($matrix[0]); $i++) 
         {
           $trans_matrix[$i] = array();
@@ -66,42 +66,66 @@
             {
                $trans_matrix[$i][$j] = $matrix[$j][$i];
              }
+        }
+          echo "<br>";
+        //print_r($trans_matrix);
+           $this->pretty_array($trans_matrix);
+           $this->check_colses($trans_matrix);
 
-        	for ($i=0; isset($trans_matrix); $i++) {
+   
+    }
 
-                for ($j=0; $j < count($matrix[$i]); $j++) { 
+     function check_colses($trans_matrix) {
+              //убираем доминирующие строки
+    for ($k=0; $k <  count($trans_matrix); $k++) { 
+        for ($i=1; $i < count($trans_matrix) ; $i++) { 
+            if ($i === $k) {
+                $i++;
+            }
+            for ($j=0; $j < count($trans_matrix[$i]); $j++) {
+                   $cache[$j] = $trans_matrix[$k][$j] >= $trans_matrix[$i][$j];
+                   echo "<br>". $trans_matrix[$k][$j]." >= ".$trans_matrix[$i][$j]." номер массива = ".$i;
 
-                	$cache[$j] = ($matrix[$i][$j] <= $matrix[$i+1][$j]);
-
-                	//echo "<br/>".$matrix[$i][$j]." <= ".$matrix[$i+1][$j]. "<br />";
-                	//var_dump($cache);
-                }
+            }
 
                  $res = array_unique($cache);
                  $res = array_values($res);
-                 //var_dump($cache);
+                  echo "<br>Что там у нас в КЕШЭЭЭЭЭЭЭ <br>";
+                  var_dump($cache);
+                   $cache = array();
 
-                 if (!isset($res[1]) && $res[0] != false) {
-                    unset($matrix[$i]);
-                    //echo "<br />Array".$i." Deleted";
+                 if (!isset($res[1]) && ($res[0] != false)) {
+                    unset($trans_matrix[$k]);
+                    $trans_matrix = array_values($trans_matrix);
+                  
+                    echo "<br />Array".$k." Deleted";
+
+                     echo "Состояние массива <br>";
+                     //print_r($trans_matrix);
+                      $this->pretty_array($trans_matrix);
+                      $this->check_colses($trans_matrix);
                  }
-     		}
-      }
-
-           $trans_matrix = array_values($trans_matrix);
-           $array= array_map("unserialize", array_unique( array_map("serialize", $trans_matrix) ));
-
-        foreach ($array as $rows) {
-        	foreach ($val as $cols) {
-        		
-        	}
         }
+    }
 
-     	   print_r($array);  
-     }
+        echo "<br>";
+        print_r($trans_matrix);
+   }
+
+    function pretty_array($arr) {
+    echo "<br>";
+        for ($i=0; $i < count($arr); $i++) { 
+            echo "<br>";
+            for ($j=0; $j < count($arr[$i]) ; $j++) { 
+                echo $arr[$i][$j]. "       ";
+            }
+        }
+    }
+
 }
 
-    $arr1 = array ('0' => array(
+    $arr1 = array
+     ('0' => array(
      	      '0'=> 7,
      	      '1'=> 6,
      	      '2'=> 0),
@@ -150,6 +174,7 @@
      $val = 2;
      $ex = new SimplifyMatrix($arr);
      $ex->check_rows();
+     $ex->check_cols();
    
 
 
