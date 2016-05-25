@@ -14,9 +14,11 @@
     private $gamerB;
     private $Va;
     private $Vb;
-     
-    function __construct($matrix1, $matrix2)
+    
+    function __construct($matrix)
     {
+      $matrix1 = $matrix;
+      $matrix2 = $this->create_gamerB($matrix);
       $this->gamerA = $matrix1;
       $this->gamerB = $matrix2;
       $matrix1_length = count($matrix1);
@@ -51,6 +53,20 @@
            }
       }
     }
+ 
+ private function create_gamerB($arg) 
+ {
+  $trans_matrix = array();
+  //транспонировать матрицу для проверки по столбцам
+    for ($i = 0; $i < count($arg[0]); $i++) {
+       $trans_matrix[$i] = array();
+          for ($j = 0; $j < count($arg); $j++) {
+              $trans_matrix[$i][$j] = $arg[$j][$i];
+          }
+    }
+
+    return $trans_matrix;
+ }
 
  private function solve_equation($a, $b)
   {
