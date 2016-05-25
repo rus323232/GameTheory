@@ -54,6 +54,7 @@
      	$matrix = $this->pay_matrix;
      	$trans_matrix = array();
         $cache = array();
+        $cache_reverse = array();
 
 
         //транспонировать матрицу для проверки по столбцам
@@ -72,29 +73,38 @@
            $this->pretty_array($trans_matrix);
            $this->check_colses($trans_matrix);
 
+
    
     }
 
      function check_colses($trans_matrix) {
+           if ( count($trans_matrix) === 2 || count($trans_matrix[$i]) === 2 ) {
+            echo "OK";
+            print_r($trans_matrix);
+            return;
+           }
               //убираем доминирующие строки
-    for ($k=0; $k <  count($trans_matrix); $k++) { 
-        for ($i=1; $i < count($trans_matrix) ; $i++) { 
+      for ($k=0; $k <  count($trans_matrix); $k++) { 
+
+         for ($i=1; $i < count($trans_matrix) ; $i++) { 
             if ($i === $k) {
                 $i++;
             }
             for ($j=0; $j < count($trans_matrix[$i]); $j++) {
+
                    $cache[$j] = $trans_matrix[$k][$j] >= $trans_matrix[$i][$j];
+                   $cache_reverse[$j] = $trans_matrix[$i][$j] >= $trans_matrix[$k][$j];
+    
                    echo "<br>". $trans_matrix[$k][$j]." >= ".$trans_matrix[$i][$j]." номер массива = ".$i;
 
             }
 
-                 $res = array_unique($cache);
-                 $res = array_values($res);
-                  echo "<br>Что там у нас в КЕШЭЭЭЭЭЭЭ <br>";
-                  var_dump($cache);
-                   $cache = array();
+                $cache = array_unique($cache);
+                $cache = array_values($cache);
+                echo "<br>Что там у нас в КЕШЭЭЭЭЭЭЭ <br>";
+                var_dump($cache);
 
-                 if (!isset($res[1]) && ($res[0] != false)) {
+                 if (!isset($cache[1]) && ($cache[0] != false)) {
                     unset($trans_matrix[$k]);
                     $trans_matrix = array_values($trans_matrix);
                   
@@ -105,12 +115,27 @@
                       $this->pretty_array($trans_matrix);
                       $this->check_colses($trans_matrix);
                  }
+
+                $cache_reverse = array_unique($cache_reverse);
+                $cache_reverse = array_values($cache_reverse);
+                echo "<br>Что там у нас в обратном сравнении<br>";
+                var_dump($cache_reverse);
+               
+                if (!isset($cache_reverse[1]) && ($cache_reverse[0] != false)) {
+                    unset($trans_matrix[$i]);
+                    $trans_matrix = array_values($trans_matrix);
+                  
+                    echo "<br />Array".$i." Deleted";
+
+                     echo "Состояние массива <br>";
+                     //print_r($trans_matrix);
+                      $this->pretty_array($trans_matrix);
+                      $this->check_colses($trans_matrix);
+                 }
         }
     }
 
-        echo "<br>";
-        print_r($trans_matrix);
-   }
+}
 
     function pretty_array($arr) {
     echo "<br>";
