@@ -17,8 +17,8 @@
     
     function __construct($matrix)
     {
-      $matrix1 = $matrix;
-      $matrix2 = $this->create_gamerB($matrix);
+      $matrix2 = $matrix;
+      $matrix1 = $this->create_gamerB($matrix);
       $this->gamerA = $matrix1;
       $this->gamerB = $matrix2;
       $matrix1_length = count($matrix1);
@@ -160,7 +160,6 @@
       $answers[B] = $gamerB_answer;
 
       return $answers;
-       //list(list($x, $y, $z)) = gaussj($matrix, $b);
     }
 
   }

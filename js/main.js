@@ -1,8 +1,8 @@
 (function() {
 
-    var tableRows, tableColumns, _payMatrix, _transpayMatrix, _minmaxA, _maxminB;
+    var tableRows, tableColumns, _payMatrix, _minmaxA, _maxminB;
 
-    $('.build_matrix_button').click(function(event) {
+    $('.form-but').click(function(event) {
         buildTable();
     });
 
@@ -38,7 +38,7 @@
         // Создать многомерный массив
         var pay_matrix = new Array(i); // В таблице i строк
 
-        for (var i = 0; i < pay_matrix.length; i++)
+        for (var i = 0; i < pay_matrix.length; i++) 
             pay_matrix[i] = new Array(j); // В каждой строке j столбцов
 
         // Инициализировать массив и вывести на консоль
@@ -52,8 +52,6 @@
         }
 
         if (findSaddlePoint(pay_matrix) === null) {
-           var a = sendDataOnServer();
-           console.log(a);
            resultOut();
         };
 
@@ -87,14 +85,14 @@
         maxminB = Math.min.apply(null, maxColumn);
 
         $('.result').empty();
+        $('.result_shuffle_strategy').empty();
         $('.result').append('<p>Гарантированный выигрыш, определяемый нижней ценой игры a = max(ai) = ' + minmaxA + '</p><p>Верхняя цена игры b = min(bj) = ' + maxminB + '.</p>');
 
         if (minmaxA === maxminB) {
             saddlePoint = minmaxA;
             $('.result').append('<p>Так, как a = b, решением будет пара стратегий со значением ( ' + saddlePoint + ' ), а цена игры v будет соответственно равна = ' + minmaxA + '</p>');
         } else {
-            _payMatrix = pay_matrix;
-            _transpayMatrix = columns; //присваиваем получившиеся значения глобальным переменным для передачи на сервер 
+            _payMatrix = pay_matrix; //присваиваем получившиеся значения глобальным переменным для передачи на сервер 
             _minmaxA = minmaxA;
             _maxminB = maxminB;
         }
@@ -118,7 +116,6 @@
                 dataType: 'JSON',
                 data: {
                     pay_matrix: _payMatrix,
-                   // trans_matrix: _transpayMatrix,
                     minmaxA: _minmaxA,
                     maxminB: _maxminB,
                     n: tableRows,
@@ -126,7 +123,7 @@
 
                 },
                 success: function(data) {
-                    alert('Answers taken');
+                    //alert('Answers taken');
                 }
        }).responseText;
 
@@ -145,11 +142,14 @@
         var text2 ="<p>Решив систему уравнений получим ответ</p>";
         var gamerAanswer = buildAnswer(data.A);
         var gamerBanswer = buildAnswer(data.B);
+        var simple_matrix = simple_matrix_out(data);
 
            outContainer.empty();
 
            outContainer.append('Что свидетельствует об отсутствии седловой точки, так как a ≠ b, тогда цена игры находится в пределах '+_minmaxA+'≤ y ≤ '+_maxminB+'');   
            outContainer.append(text1); 
+           outContainer.append('<p>Упростив матрицу получим</p>');
+           outContainer.append(simple_matrix);
            outContainer.append(text2);
            outContainer.append('<p>Для игрока A: </p>');
            outContainer.append(gamerAanswer);
@@ -159,20 +159,40 @@
 
     function buildAnswer (data) {
 
-        var answerText ='', ansObj = data;
+        var answerText ='', answerText1 ='', ansObj = data, answerText2 = 'Оптимальная смешанная стратегия = (';
 
           for (var i = 0; i < ansObj[0].length; i++) {
 
                 if (i == (ansObj[0].length)-1) {
-                    answerText += "Y"+(i+1)+" = "+ansObj[0][i]+"<br />";
+                    answerText1 += "Y = "+ansObj[0][i]+"<br />";
+                    answerText2 += ")";
                     break;
                 };
 
-             answerText += "P"+(i+1)+" = "+ansObj[0][i]+"<br />";
+             answerText1 += "P"+(i+1)+" = "+ansObj[0][i]+"<br />";
+             answerText2 += ansObj[0][i]+", ";
                 
           };
 
+          answerText = answerText1 + answerText2;
+
+     
+
     return answerText;
     };
+
+    function simple_matrix_out (arr) {
+        var matrix = arr.simple_matrix, out = '<table class="simple_matrix">';
+        for (var i = 0; i < matrix.length; i++) {
+               out += "<tr>";
+            for (var j = 0; j < matrix[i].length; j++) {
+                out += "<td>"+matrix[i][j]+"</td>";
+            };
+               out +="</tr>";
+        };
+        out += "</table>"
+
+    return out;
+    }
 
 })();

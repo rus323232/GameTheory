@@ -16,10 +16,14 @@
     $SimplifyMatrix = new SimplifyMatrix ($paymatrix);
     $simpleMatrix = $SimplifyMatrix->get_result();
 
-    $GetResult= new FindVariables($simpleMatrix);
-    $answer = $GetResult->findVar();
+    $FindVariables= new FindVariables($simpleMatrix);
+    $answer = $FindVariables->findVar();
+    $answer['simple_matrix'] = $simpleMatrix;
 
-    echo json_encode($answer);
+    $answer = json_encode($answer);
+
+   
+    echo $answer;
     exit;
 }
    
