@@ -139,7 +139,8 @@
             text1+= "Игру можно решить, если позволить игрокам выбирать свои стратегии случайным образом (смешивать чистые стратегии).";
             text1+="Так как игроки выбирают свои чистые стратегии случайным образом, то выигрыш игрока I будет случайной величиной. В этом случае игрок I должен выбрать свои смешанные стратегии так, чтобы получить максимальный средний выигрыш.";
             text1+="Аналогично, игрок II должен выбрать свои смешанные стратегии так, чтобы минимизировать математическое ожидание игрока I.  ";
-        var text2 ="<p>Решив систему уравнений получим ответ</p>";
+        var text2 ="<p>Составив систему уравнений вида <br> X11P1+X12P2+X13P3+...+X1nPn = Y <br> X21P1+X22P2+X23P3+...+X2nPn = Y<br>";
+            text2+="..................................................<br> Xn1P1+Xn2P2+Xn3P3+...+XnnPn = Y <br> P1+P2+P3+...+Pn = 1 <br> И решив ее методом Гаусса получим</p>";
         var gamerAanswer = buildAnswer(data.A);
         var gamerBanswer = buildAnswer(data.B);
         var simple_matrix = simple_matrix_out(data);
@@ -148,7 +149,7 @@
 
            outContainer.append('Что свидетельствует об отсутствии седловой точки, так как a ≠ b, тогда цена игры находится в пределах '+_minmaxA+'≤ y ≤ '+_maxminB+'');   
            outContainer.append(text1); 
-           outContainer.append('<p>Упростив матрицу получим</p>');
+           outContainer.append('<p>По возможности убрав все доминирующие строки получим матрицу: </p>');
            outContainer.append(simple_matrix);
            outContainer.append(text2);
            outContainer.append('<p>Для игрока A: </p>');
@@ -165,6 +166,7 @@
 
                 if (i == (ansObj[0].length)-1) {
                     answerText1 += "Y = "+ansObj[0][i]+"<br />";
+                    answerText2 = answerText2.slice(0, -2);
                     answerText2 += ")";
                     break;
                 };
