@@ -9,7 +9,6 @@
     $paymatrix = $_POST['pay_matrix'];
     $minmaxA = $_POST['minmaxA'];
     $maxminB = $_POST['maxminB'];
-    //$trans_matrix = $_POST['trans_matrix'];
     $n = $_POST['n'];
     $m = $_POST['m'];
 

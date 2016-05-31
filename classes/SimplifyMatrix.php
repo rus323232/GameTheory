@@ -1,6 +1,14 @@
 <?php
-/**
- * 
+/** Класс упрощающий матрицу
+ * В качестве входного аргумента принимается двумерный массив (платежная матрица)
+ * Метод get_result - упрощает матрицу по столбцам и по строкам, возвращая результат
+ * метод публичный используется для передачи конечного рзультата обработчику
+ * check_rows - упрощает матрицу построчно
+ * check_cols - упрощает матрицу по столбцам
+ * simplify_pay_matrix - проверяет матрицу построчно удаляя доминирующие строки
+ * скрытый метод доступный только внутри класса
+ * pretty_array - выводит в консоль массив в удобном для восприятия формате
+ * используется для отладки, в качестве аргумента принимает двумерный массив
  */
 class SimplifyMatrix {
     private $pay_matrix = array();
@@ -18,7 +26,7 @@ class SimplifyMatrix {
     function get_result () {
         $this->check_rows();
         $this->check_cols();
-        
+
         return $this->pay_matrix;
     }
 
@@ -32,8 +40,6 @@ class SimplifyMatrix {
         //$this->pretty_array($matrix);
         
         $this->pay_matrix = $matrix;
-        
-        
         
     }
     
@@ -117,7 +123,7 @@ class SimplifyMatrix {
                     unset($pay_matrix[$k]);
                     $pay_matrix = array_values($pay_matrix);
                     
-                    //echo "<br />Array".$k." Deleted";
+                   // echo "<br />Array".$k." Deleted";
                     //echo "Состояние массива <br>";
                     //print_r($pay_matrix);
                     //$this->pretty_array($pay_matrix);
@@ -132,11 +138,15 @@ class SimplifyMatrix {
                     $pay_matrix = array_values($pay_matrix);
                     
                     //echo "<br />Array".$i." Deleted";
-                    // echo "Состояние массива <br>";
+                     //echo "Состояние массива <br>";
                     //print_r($pay_matrix);
                     //$this->pretty_array($pay_matrix);
                     $result = $this->simplify_pay_matrix($pay_matrix, $gamer_type);
                     return $result;
+                }
+                //вернуть получившийся массив в конце цикла
+                if ($k === count($pay_matrix) - 2) {
+                    return $pay_matrix;
                 }
                 
             }
@@ -156,7 +166,39 @@ class SimplifyMatrix {
     
 }
 
-/*$arr1 = array(
+
+/*
+$pay_matrix[0][]=688;
+$pay_matrix[0][]=7654;
+$pay_matrix[0][]=8464;
+$pay_matrix[0][]=8;
+$pay_matrix[0][]=46;
+$pay_matrix[1][]=6846;
+$pay_matrix[1][]=867;
+$pay_matrix[1][]=68;
+$pay_matrix[1][]=64654688;
+$pay_matrix[1][]=258;
+$pay_matrix[2][]=746;
+$pay_matrix[2][]=894873;
+$pay_matrix[2][]=4187;
+$pay_matrix[2][]=57568;
+$pay_matrix[2][]=13;
+$pay_matrix[3][]=8464;
+$pay_matrix[3][]=87;
+$pay_matrix[3][]=35852;
+$pay_matrix[3][]=444;
+$pay_matrix[3][]=6687;
+$pay_matrix[4][]=4648;
+$pay_matrix[4][]=87756432;
+$pay_matrix[4][]=8;
+$pay_matrix[4][]=648486;
+$pay_matrix[4][]=7;
+$minmaxA=87;
+$maxminB=6687;
+$n=5;
+$m=5;
+
+$arr1 = array(
     '0' => array(
         '0' => 7,
         '1' => 6,
@@ -211,10 +253,11 @@ $arr = array(
         '4' => 10
     )
 );
+
 $val = 2;
-$ex  = new SimplifyMatrix($arr);
+$ex  = new SimplifyMatrix($pay_matrix);
 $ex->check_rows();
-$ex->check_cols();*/
+$ex->check_cols(); */
 
 
 

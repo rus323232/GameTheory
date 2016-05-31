@@ -1,17 +1,30 @@
 (function() {
 
     var tableRows, tableColumns, _payMatrix, _minmaxA, _maxminB;
+    var tableComplete = false;
 
+    //Вывод формы для ввода платежной матрицы
     $('.form-but').click(function(event) {
-        buildTable();
+        tableComplete = buildTable();
+        inputFilter();
     });
-
+    //кнопка найти решение
     $('.shape_matrix_button').click(function(event) {
         calculate();
     });
-
     
-
+    //фильтрация ввода данных
+    function inputFilter () {
+        $('.pay-matrix').keyup(function(event) {
+        var reg = /[^\d\.-]/g;
+           if (this.value .search(reg) != -1){
+             alert('Принимается только числовой тип данных');
+             this.value = '';
+           }
+       });
+    }
+    
+    //построение формы ввода матрицы
     function buildTable () {
        var i, j;
 
@@ -24,23 +37,26 @@
          $('.pay_matrix').append('<tr id="' + i + '">');
 
          for (j = 0; j < tableColumns; j++) {
-             $('#' + i + '').append('<td><input value="' + (i + 1) + (j + 1) + '" id="elem' + i + '-' + j + '"type="number"></td>');
-         };
+             $('#' + i + '').append('<td><input class="pay-matrix" maxlength="11" value="' + (i + 1) + (j + 1) + '" id="elem' + i + '-' + j + '"type="text"></td>');
+         }
          $('.pay_matrix').append('</tr>');
-       };
+       }
        $('.shape_matrix_button').css('visibility', 'visible');
 
-    }
+       return true;
 
+    }
+    
+    //произвести расчеты
     function calculate () {
       var i = tableRows,
             j = tableColumns;
         // Создать многомерный массив
         var pay_matrix = new Array(i); // В таблице i строк
 
-        for (var i = 0; i < pay_matrix.length; i++) 
+        for ( var i = 0; i < pay_matrix.length; i++) {
             pay_matrix[i] = new Array(j); // В каждой строке j столбцов
-
+        }
         // Инициализировать массив и вывести на консоль
         for (var row = 0, str = ''; row < pay_matrix.length; row++) {
             for (var col = 0; col < pay_matrix[row].length; col++) {
@@ -50,13 +66,13 @@
             console.log(str + '\n');
             str = '';
         }
-
+        //отправить запрос на сервер если седловая точка не найдена
         if (findSaddlePoint(pay_matrix) === null) {
            resultOut();
-        };
+        }
 
     }
-
+    //поиск седловой точки
     function findSaddlePoint(arr) {
         var pay_matrix = arr;
         var rows = [],
@@ -70,7 +86,7 @@
         for (var i = 0; i < pay_matrix.length; i++) {
             rows[i] = pay_matrix[i];
             minRow[i] = Math.min.apply(null, rows[i]);
-        };
+        }
 
         //формируем массив из столбцов находим максимумы
         for (var i = 0; i < tableColumns; i++) {
@@ -105,7 +121,8 @@
         return saddlePoint;
 
     }
-
+    
+    //функция формирует AJAX запрос на сервер и возвращает ответ
     function sendDataOnServer() {
        var queryResult, value;
 
@@ -123,7 +140,7 @@
 
                 },
                 success: function(data) {
-                    //alert('Answers taken');
+
                 }
        }).responseText;
 
@@ -131,7 +148,8 @@
 
        return value;
     }
-
+    
+    //вывод результатов пользователю
     function resultOut () {
         var data = sendDataOnServer(),
             outContainer = $('.result_shuffle_strategy');
@@ -157,10 +175,16 @@
            outContainer.append('<p>Для игрока B: </p>');
            outContainer.append(gamerBanswer);
     }
-
+    
+    //получает ответ с сервера, выводит решение системы уравненй
     function buildAnswer (data) {
 
         var answerText ='', answerText1 ='', ansObj = data, answerText2 = 'Оптимальная смешанная стратегия = (';
+
+        if (ansObj[0] === 'М') {
+             alert('Матрица сингулярна необходимо применить симплекс метод(в разработке)');
+             return;
+        }
 
           for (var i = 0; i < ansObj[0].length; i++) {
 
@@ -181,8 +205,9 @@
      
 
     return answerText;
-    };
-
+    }
+    
+    //получает ответ с сервера, выводит упрощенную платежную матрицу
     function simple_matrix_out (arr) {
         var matrix = arr.simple_matrix, out = '<table class="simple_matrix">';
         for (var i = 0; i < matrix.length; i++) {
@@ -192,7 +217,7 @@
             };
                out +="</tr>";
         };
-        out += "</table>"
+        out += "</table>";
 
     return out;
     }
